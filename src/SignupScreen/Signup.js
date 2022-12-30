@@ -1,5 +1,5 @@
 import React, {useContext, useState} from 'react';
-import {View, Text, Touchable, TouchableOpacity} from 'react-native';
+import {View, Text, Touchable, TouchableOpacity, Image} from 'react-native';
 import {AuthContext} from '../Constants/AuthContext';
 import BtnLogin from '../Components/BtnLogin';
 import Background from '../Constants/Background';
@@ -13,38 +13,35 @@ const Signup = ({navigation}) => {
   const [email, setEmail] = useState('');
   const [so_dt, setSo_dt] = useState('');
   const [mat_khau, setMat_khau] = useState('');
-  const {isLoading,Register} = useContext(AuthContext);
+  const {isLoading, Register} = useContext(AuthContext);
   return (
-    <Background>
+    <View style={{backgroundColor: '#041b2d'}}>
       <Spinner visible={isLoading} />
       <View style={{alignItems: 'center', width: 400}}>
-        <Text
-          style={{
-            color: 'white',
-            fontSize: 64,
-            fontWeight: 'bold',
-            marginTop: 20,
-          }}>
-          Register
-        </Text>
-        <Text
-          style={{
-            color: 'white',
-            fontSize: 19,
-            fontWeight: 'bold',
-            marginBottom: 20,
-          }}>
-          Create a new account
-        </Text>
+        <View style={{alignItems: 'center', width: 405}}>
+          <Image
+            style={{width: 150, height: 150, marginTop: 50}}
+            source={require('../assets/logomovie.png')}
+          />
+        </View>
         <View
           style={{
-            backgroundColor: '#151C26',
+            backgroundColor: '#041b2d',
             height: 700,
             width: 405,
             borderTopLeftRadius: 130,
             paddingTop: 50,
             alignItems: 'center',
           }}>
+          <Text
+            style={{
+              fontSize: 30,
+              color: '#fff',
+              fontWeight: 'bold',
+              marginBottom: 50,
+            }}>
+            Đăng Ký Thành Viên
+          </Text>
           <Field
             placeholder="Nhập Họ Tên"
             keyboardType="ho_ten"
@@ -72,10 +69,10 @@ const Signup = ({navigation}) => {
           />
           <View style={{marginTop: 20}}>
             <BtnLogin
-              LableBtn={'SignUp'}
-              bgColor={darkGreen}
+              LableBtn={'Đăng Ký'}
+              bgColor='#f47326'
               onPress={() => {
-                Register(ho_ten, email, so_dt, mat_khau,setHo_ten);
+                Register(ho_ten, email, so_dt, mat_khau, setHo_ten);
               }}
             />
             <View
@@ -84,20 +81,20 @@ const Signup = ({navigation}) => {
                 flexDirection: 'row',
                 justifyContent: 'center',
               }}>
-              <Text style={{fontSize: 16, fontWeight: 'bold'}}>
-                Already have an account ?{' '}
+              <Text style={{fontSize: 13, fontWeight: 'bold',color:'#fff'}}>
+                Bạn đã có tài khoản ?
               </Text>
               <TouchableOpacity onPress={() => navigation.navigate('Login')}>
                 <Text
-                  style={{color: darkGreen, fontWeight: 'bold', fontSize: 16}}>
-                  Login
+                  style={{color: '#f47326', fontWeight: 'bold', fontSize: 14, marginLeft:5}}>
+                  Quay lại đăng nhập
                 </Text>
               </TouchableOpacity>
             </View>
           </View>
         </View>
       </View>
-    </Background>
+    </View>
   );
 };
 

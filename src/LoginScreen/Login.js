@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   Button,
   TextInput,
+  Image,
 } from 'react-native';
 import Background from '../Constants/Background';
 import {darkGreen} from '../Constants/Colors';
@@ -13,49 +14,40 @@ import Field from '../Constants/Field';
 import {AuthContext} from '../Constants/AuthContext';
 import Spinner from 'react-native-loading-spinner-overlay';
 
-
 const Login = ({navigation}) => {
- 
   const [ho_ten, setHo_ten] = useState(null);
   const [mat_khau, setMat_khau] = useState('');
   const {isLoading, login} = useContext(AuthContext);
 
   return (
-    <Background>
+    <View style={{backgroundColor: '#041b2d'}}>
       <Spinner visible={isLoading} />
       <View style={{alignItems: 'center', width: 405}}>
-        <Text
-          style={{
-            color: 'white',
-            fontSize: 64,
-            fontWeight: 'bold',
-            marginVertical: 10,
-          }}>
-          Login
-        </Text>
+        <Image
+          style={{width: 150, height: 150, marginTop: 50}}
+          source={require('../assets/logomovie.png')}
+        />
       </View>
       <View
         style={{
-          backgroundColor: '#151C26',
+          backgroundColor: '#041b2d',
           height: 700,
           width: 405,
           borderTopLeftRadius: 130,
           paddingTop: 85,
           alignItems: 'center',
         }}>
-        <Text style={{fontSize: 40, color: darkGreen, fontWeight: 'bold'}}>
-          Welcome Back
-        </Text>
         <Text
           style={{
-            color: 'grey',
-            fontSize: 19,
+            fontSize: 30,
+            color: '#fff',
             fontWeight: 'bold',
-            marginBottom: 20,
+            marginBottom: 50,
           }}>
-          Login to your account
+          Đăng Nhập Thành Viên
         </Text>
-        <Field 
+
+        <Field
           style={{
             marginBottom: 12,
             borderWidth: 1,
@@ -68,7 +60,7 @@ const Login = ({navigation}) => {
           value={ho_ten}
           onChangeText={text => setHo_ten(text)}
         />
-        <Field 
+        <Field
           style={{
             marginBottom: 12,
             borderWidth: 1,
@@ -86,15 +78,15 @@ const Login = ({navigation}) => {
             alignItems: 'flex-end',
             width: '78%',
             paddingRight: 16,
-            marginBottom: 200,
+            marginBottom: 100,
           }}>
-          <Text style={{color: darkGreen, fontWeight: 'bold', fontSize: 16}}>
-            Forgot Password ?
+          <Text style={{color: '#f47326', fontWeight: 'bold', fontSize: 16}}>
+            Quên mật Khẩu ?
           </Text>
         </View>
         <TouchableOpacity
           style={{
-            backgroundColor: '#006A42',
+            backgroundColor: '#f47326',
             borderRadius: 100,
             alignItems: 'center',
             width: 300,
@@ -105,7 +97,7 @@ const Login = ({navigation}) => {
             login(ho_ten, mat_khau);
           }}>
           <Text style={{color: '#fff', fontSize: 25, fontWeight: 'bold'}}>
-            Login
+            Đăng Nhập
           </Text>
         </TouchableOpacity>
         <View
@@ -114,17 +106,23 @@ const Login = ({navigation}) => {
             flexDirection: 'row',
             justifyContent: 'center',
           }}>
-          <Text style={{fontSize: 16, color: darkGreen}}>
-            Don't have an account ?{' '}
+          <Text style={{fontSize: 13, color: '#ffff'}}>
+            Bạn chưa có tài khoản?
           </Text>
           <TouchableOpacity onPress={() => navigation.navigate('Register')}>
-            <Text style={{color: darkGreen, fontWeight: 'bold', fontSize: 16}}>
-              Signup
+            <Text
+              style={{
+                color: '#f47326',
+                fontWeight: 'bold',
+                fontSize: 13,
+                marginLeft: 5,
+              }}>
+              Đăng Ký Tài Khoản
             </Text>
           </TouchableOpacity>
         </View>
       </View>
-    </Background>
+    </View>
   );
 };
 

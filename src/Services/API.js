@@ -1,2 +1,5 @@
-const API_URL = 'http://192.168.1.170:3000'
+const API_URL = 'http://192.168.1.3:3000'
 export default API_URL
+
+// 192.168.2.189
+// 192.168.1.3

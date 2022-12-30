@@ -11,6 +11,8 @@ export const AuthProvider = ({children}) => {
   const [userInfo, setUserInfo] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const [splashLoading, setSplashLoading] = useState(false);
+  const [profile,setProfile] = useState('')
+  console.log("userInfo",userInfo);
   const login = (ho_ten, mat_khau) => {
     setIsLoading(true);
     axios
@@ -74,6 +76,19 @@ export const AuthProvider = ({children}) => {
     }
   };
 
+  const getProfileUser = async(id) =>{
+   await axios
+    .get(`http://192.168.1.3:3000/api/v1/auth/${id}`,{ headers: {"Authorization" : `Bearer ${userInfo.data.token}`}} )
+    .then(res => {
+      // console.log('llllll',res.data);
+      setProfile(res.data)
+    })
+    .catch(e => {
+      console.log(`Register error ${e}`);
+      setIsLoading(false);
+    });
+  }
+
   useEffect(() => {
     isLoggedIn();
   }, []);
@@ -84,9 +99,11 @@ export const AuthProvider = ({children}) => {
         isLoading,
         userInfo,
         splashLoading,
+        profile,
         login,
         logout,
         Register,
+        getProfileUser,
       }}>
       {children}
     </AuthContext.Provider>
