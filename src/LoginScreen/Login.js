@@ -15,8 +15,8 @@ import {AuthContext} from '../Constants/AuthContext';
 import Spinner from 'react-native-loading-spinner-overlay';
 
 const Login = ({navigation}) => {
-  const [ho_ten, setHo_ten] = useState(null);
-  const [mat_khau, setMat_khau] = useState('');
+  const [hoTen, setHo_ten] = useState(null);
+  const [matKhau, setMat_khau] = useState('');
   const {isLoading, login} = useContext(AuthContext);
 
   return (
@@ -56,8 +56,8 @@ const Login = ({navigation}) => {
             paddingHorizontal: 14,
           }}
           placeholder="Nhập họ tên"
-          keyboardType={'ho_ten'}
-          value={ho_ten}
+          keyboardType={'hoTen'}
+          value={hoTen}
           onChangeText={text => setHo_ten(text)}
         />
         <Field
@@ -69,7 +69,7 @@ const Login = ({navigation}) => {
             paddingHorizontal: 14,
           }}
           placeholder="Nhập mật Khẩu"
-          value={mat_khau}
+          value={matKhau}
           onChangeText={text => setMat_khau(text)}
           secureTextEntry={true}
         />
@@ -94,7 +94,7 @@ const Login = ({navigation}) => {
             marginVertical: 10,
           }}
           onPress={() => {
-            login(ho_ten, mat_khau);
+            login(hoTen, matKhau);
           }}>
           <Text style={{color: '#fff', fontSize: 25, fontWeight: 'bold'}}>
             Đăng Nhập

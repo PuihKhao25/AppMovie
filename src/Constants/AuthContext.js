@@ -13,14 +13,15 @@ export const AuthProvider = ({children}) => {
   const [splashLoading, setSplashLoading] = useState(false);
   const [profile,setProfile] = useState('')
   console.log("userInfo",userInfo);
-  const login = (ho_ten, mat_khau) => {
+  const login = (hoTen, matKhau) => {
     setIsLoading(true);
     axios
-      .post(`${API_URL}/api/v1/auth/login`, {
-        ho_ten,
-        mat_khau,
+      .post(`${API_URL}/api/QuanLyNguoiDung/DangNhap`, {
+        hoTen,
+        matKhau,
       })
       .then(res => {
+        console.log('user',res.data);
         const userInfo = res.data;
         console.log(userInfo);
         setUserInfo(userInfo);
@@ -33,12 +34,12 @@ export const AuthProvider = ({children}) => {
       });
   };
 
-  const Register = (ho_ten, email, so_dt, mat_khau,setHo_ten) =>{
+  const Register = (hoTen, email, soDt, matKhau,setHo_ten) =>{
     setIsLoading(true);
 
     axios
-      .post(`${API_URL}/api/v1/auth/register`, {
-        ho_ten, email, so_dt, mat_khau
+      .post(`${API_URL}/api/QuanLyNguoiDung/DangKy`, {
+        hoTen, email, soDt, matKhau
       })
       .then(res => {
         Alert.alert('Đăng kí thành công')
@@ -77,16 +78,7 @@ export const AuthProvider = ({children}) => {
   };
 
   const getProfileUser = async(id) =>{
-   await axios
-    .get(`http://192.168.1.3:3000/api/v1/auth/${id}`,{ headers: {"Authorization" : `Bearer ${userInfo.data.token}`}} )
-    .then(res => {
-      // console.log('llllll',res.data);
-      setProfile(res.data)
-    })
-    .catch(e => {
-      console.log(`Register error ${e}`);
-      setIsLoading(false);
-    });
+
   }
 
   useEffect(() => {

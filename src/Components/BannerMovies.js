@@ -19,12 +19,12 @@ const BannerMovies = () => {
   const [imgActive, setimgActive] = useState(0);
   useEffect(() => {
     async function getBanner() {
-      const res = await axios.get(API_URL + '/api/v1/web/layDanhSachBanner');
+      const res = await axios.get(`${API_URL}/api/QuanLyPhim/LayDanhSachBanner`);
       return res;
     }
     getBanner().then(response => {
-      const result = response?.data;
-      setMovies(result?.data);
+      const result =response.data.content;
+      setMovies(result);
     });
   }, [itemCategory]);
   onchange = nativeEvent => {
@@ -37,7 +37,6 @@ const BannerMovies = () => {
       }
     }
   };
-
   return (
     <>
       <SafeAreaView>
@@ -48,7 +47,9 @@ const BannerMovies = () => {
             pagingEnabled
             horizontal
             style={style.wrap}>
-            {movies?.map((item, index) => {
+            {
+             
+            movies?.map((item,index) => {
               return (
                 <>
                   <Image
@@ -63,7 +64,7 @@ const BannerMovies = () => {
               );
             })}
           </ScrollView>
-          <View style={style.wrapDot}>
+          {/* <View style={style.wrapDot}>
             {movies.map((item, index) => {
               // console.log('item', imgActive, item);
               return (
@@ -74,7 +75,7 @@ const BannerMovies = () => {
                 </Text>
               );
             })}
-          </View>
+          </View> */}
         </View>
       </SafeAreaView>
     </>

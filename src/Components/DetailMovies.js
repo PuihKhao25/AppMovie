@@ -1,38 +1,51 @@
 import React from 'react';
-import {View, Text, ScrollView, Image} from 'react-native';
+import {View, Text, ScrollView, Image, Button} from 'react-native';
 import Styles from '../Styles';
+import Video from 'react-native-video';
+import YoutubePlayer from 'react-native-youtube-iframe';
+import {useNavigation} from '@react-navigation/native';
+import moment from 'moment/moment';
 
-const DetailMovies = ({route, navigation}) => {
-  if(route.params.item) {
-    var {ten_phim, hinh_anh, mo_ta,ngay_khoi_chieu} = route.params.item;
+const DetailMovies = ({route}) => {
+  const navigation = useNavigation();
+  if (route.params.item) {
+    var {tenPhim, hinhAnh, trailer, moTa, ngay_khoi_chieu} =
+      route.params.item;
   }
   return (
     <>
       <ScrollView style={Styles.sectionBg}>
         <View>
+          <YoutubePlayer height={300} play={true} videoId={trailer} />
+          <Text style={Styles.detailsMovieTitle}>Tên Phim :{tenPhim}</Text>
+          <Text style={{color: 'white'}}>
+            ngay_khoi_chieu: {moment(ngay_khoi_chieu).format('YYYY-MM-DD ')}
+          </Text>
           <View>
-            <Image source={{uri: hinh_anh}} style={Styles.imageBg} />
+            <Text>time</Text>
           </View>
-          <Text style={Styles.detailsMovieTitle}>{ten_phim}</Text>
-          <Text style={Styles.heading}>Nội dung</Text>
-          <Text style={Styles.overview}>{mo_ta}</Text>
+          <View
+            style={{
+              flex: 1,
+              height: 50,
+              flexDirection: 'column',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
+            <View
+              style={{
+                backgroundColor: '#ffff',
+              }}>
+              <Button
+                title="Mua vé"
+                color={'#dc3545'}
+                onPress={() => navigation.navigate('BookTickets')}
+              />
+            </View>
+          </View>
+          <Text style={{color: 'white',fontSize:20}}>Nội dung</Text>
+          <Text style={Styles.overview}>{moTa}</Text>
         </View>
-        {/* <View style={Styles.detailsContainer}>
-          <View>
-            <Text style={Styles.heading}>Giá Tiền</Text>
-            <Text style={Styles.details}>$ 00</Text>
-          </View>
-
-          <View>
-            <Text style={Styles.heading}>Thời Lượng</Text>
-            <Text style={Styles.details}>1 min.</Text>
-          </View>
-
-          <View>
-            <Text style={Styles.heading}>Ngày Chiếu</Text>
-            <Text style={Styles.details}>{ngay_khoi_chieu}</Text>
-          </View>
-        </View> */}
       </ScrollView>
     </>
   );

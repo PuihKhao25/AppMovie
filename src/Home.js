@@ -5,12 +5,15 @@ import TrendingMovies from './Components/TrendingMovies';
 import NowShowingMovie from './Components/NowShowingMovie';
 import FooterMovies from './Components/FooterMovies';
 import Styles from './Styles';
+import BookTickets from './Components/BookTickets';
+
+
 const Home = props => {
   return (
     <>
       <ScrollView style={Styles.sectionBg}>
         <BannerMovies />
-        <TrendingMovies/>
+        <TrendingMovies />
         <NowShowingMovie />
         <FooterMovies />
       </ScrollView>

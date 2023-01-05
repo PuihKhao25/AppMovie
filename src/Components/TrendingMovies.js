@@ -11,13 +11,13 @@ export default function TrendingMovies() {
   useEffect(() => {
     async function getflim() {
       const res = await axios.get(
-        API_URL + '/api/v1/web/layDanhSachPhim?keyword=1&status=1',
+        API_URL + '/api/QuanLyPhim/LayDanhSachPhim?keyword=1&status=1'
       );
       return res;
     }
     getflim().then(response => {
-      const result = response.data;
-      setMovies(result.data);
+      const result = response.data.content;
+      setMovies(result);
     });
   }, []);
   return (
@@ -39,7 +39,7 @@ export default function TrendingMovies() {
         <TouchableOpacity
           onPress={() => navigation.navigate('DetailMovies', {item})}
           style={{marginHorizontal: 10}}>
-          <Image source={{uri: item.hinh_anh}} style={Styles.posterImage} />
+          <Image source={{uri: item.hinhAnh}} style={Styles.posterImage} />
           <Text style={Styles.movieTitle}>{item.ten_phim}</Text>
         </TouchableOpacity>
       </>

@@ -6,6 +6,7 @@ import 'react-native-gesture-handler';
 import DrawerNavigator from '../src/Components/DrawerNaviagtor';
 
 import DetailMovies from '../src/Components/DetailMovies';
+import BookTickets from '../src/Components/BookTickets';
 
 import {AuthStack} from '../src/Components/AuthStack';
 
@@ -24,10 +25,10 @@ const RootStack = () => {
           }}>
           <Stack.Screen name="DrawerNavigator" component={DrawerNavigator} />
           <Stack.Screen name="DetailMovies" component={DetailMovies} />
-          
+          <Stack.Screen name="BookTickets" component={BookTickets} />
         </Stack.Navigator>
       ) : (
-         <AuthStack />
+        <AuthStack />
       )}
     </NavigationContainer>
   );
