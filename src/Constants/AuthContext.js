@@ -2,17 +2,16 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import React, {createContext, useEffect, useState} from 'react';
 import API_URL from '../Services/API';
-import { Alert } from 'react-native';
+import {Alert} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
 export const AuthContext = createContext();
 
 export const AuthProvider = ({children}) => {
-  const [userInfo, setUserInfo] = useState({});
+  const [userInfo, setUserInfo] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [splashLoading, setSplashLoading] = useState(false);
-  const [profile,setProfile] = useState('')
-  console.log("userInfo",userInfo);
+  const [profile, setProfile] = useState('');
   const login = (hoTen, matKhau) => {
     setIsLoading(true);
     axios
@@ -21,9 +20,7 @@ export const AuthProvider = ({children}) => {
         matKhau,
       })
       .then(res => {
-        console.log('user',res.data);
         const userInfo = res.data;
-        console.log(userInfo);
         setUserInfo(userInfo);
         AsyncStorage.setItem('userInfo', JSON.stringify(userInfo));
         setIsLoading(false);
@@ -34,29 +31,30 @@ export const AuthProvider = ({children}) => {
       });
   };
 
-  const Register = (hoTen, email, soDt, matKhau,setHo_ten) =>{
+  const Register = (hoTen, email, soDt, matKhau, setHo_ten) => {
     setIsLoading(true);
 
     axios
       .post(`${API_URL}/api/QuanLyNguoiDung/DangKy`, {
-        hoTen, email, soDt, matKhau
+        hoTen,
+        email,
+        soDt,
+        matKhau,
       })
       .then(res => {
-        Alert.alert('Đăng kí thành công')
-        setHo_ten('')
+        Alert.alert('Đăng kí thành công');
+        setHo_ten('');
         setIsLoading(false);
       })
       .catch(e => {
         console.log(`Register error ${e}`);
         setIsLoading(false);
       });
-
-  }
+  };
 
   const logout = () => {
     setUserInfo(null);
     AsyncStorage.removeItem('userInfo');
-    
   };
 
   const isLoggedIn = async () => {
@@ -77,9 +75,6 @@ export const AuthProvider = ({children}) => {
     }
   };
 
-  const getProfileUser = async(id) =>{
-
-  }
 
   useEffect(() => {
     isLoggedIn();
@@ -95,7 +90,6 @@ export const AuthProvider = ({children}) => {
         login,
         logout,
         Register,
-        getProfileUser,
       }}>
       {children}
     </AuthContext.Provider>

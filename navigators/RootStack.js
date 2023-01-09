@@ -14,8 +14,6 @@ const Stack = createNativeStackNavigator();
 
 const RootStack = () => {
   const {isLoading, userInfo} = useContext(AuthContext);
-  console.log('userInfo', userInfo);
-
   return (
     <NavigationContainer>
       {userInfo !== null ? (
