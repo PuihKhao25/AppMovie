@@ -1,5 +1,5 @@
 import React, {useContext} from 'react';
-import {View, Text, TouchableOpacity, Image} from 'react-native';
+import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
 import {
   createDrawerNavigator,
   DrawerContentScrollView,
@@ -23,16 +23,7 @@ const CustomDrawer = props => {
       <DrawerContentScrollView {...props}>
         <DrawerItemList {...props} />
       </DrawerContentScrollView>
-      <TouchableOpacity
-        style={{
-          position: 'absolute',
-          right: 0,
-          left: 0,
-          bottom: 50,
-          backgroundColor: '#151C26',
-          padding: 20,
-        }}
-        onPress={handleLogout}>
+      <TouchableOpacity style={styles.containerLogout} onPress={handleLogout}>
         <View style={{}}>
           <Text style={{color: 'white'}}>
             <Icon name="log-out-outline" color={'white'} size={25} />
@@ -80,5 +71,16 @@ const DrawerNavigator = () => {
     </Drawer.Navigator>
   );
 };
+
+const styles = StyleSheet.create({
+  containerLogout: {
+    position: 'absolute',
+    right: 0,
+    left: 0,
+    bottom: 50,
+    backgroundColor: '#151C26',
+    padding: 20,
+  },
+});
 
 export default DrawerNavigator;

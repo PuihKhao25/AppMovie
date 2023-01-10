@@ -6,6 +6,7 @@ import {
   Image,
   Button,
   TouchableOpacity,
+  StyleSheet,
 } from 'react-native';
 import Styles from '../Styles';
 import Video from 'react-native-video';
@@ -20,8 +21,7 @@ const DetailMovies = ({route}) => {
   const [showTime, setShowTime] = useState(false);
   const navigation = useNavigation();
   if (route.params.item) {
-    var {maPhim, tenPhim, hinhAnh, trailer, moTa, ngay_khoi_chieu} =
-      route.params.item;
+    var {maPhim, tenPhim, trailer, moTa, ngay_khoi_chieu} = route.params.item;
   }
   useEffect(() => {
     async function getflim() {
@@ -40,33 +40,25 @@ const DetailMovies = ({route}) => {
       <ScrollView style={Styles.sectionBg}>
         <View>
           <YoutubePlayer height={300} play={true} videoId={trailer} />
-          <View style={{padding: 10}}>
+          <View style={styles.padding}>
             <Text style={Styles.detailsMovieTitle}>Tên Phim : {tenPhim}</Text>
             <View>
-              <Text style={{color: 'white', marginLeft: 35, fontSize: 20}}>
+              <Text style={styles.time}>
                 Ngày khởi chiếu: {moment(ngay_khoi_chieu).format('YYYY-MM-DD ')}
               </Text>
             </View>
-            <View style={{padding: 10}}>
+            <View style={styles.padding}>
               {times.map(item => {
                 return (
                   <>
                     <View>
                       <TouchableOpacity onPress={() => setShowTime(!showTime)}>
-                        <View
-                          style={{
-                            flex: 1,
-                            flexDirection: 'row',
-                            alignItems: 'center',
-                            marginTop: 15,
-                          }}>
+                        <View style={styles.containnerLogo}>
                           <Image
                             source={{uri: item.logo}}
-                            style={{height: 50, width: 50, borderRadius: 20}}
+                            style={styles.logo}
                           />
-                          <Text style={{fontSize: 20, marginLeft: 10}}>
-                            {item.tenRap}
-                          </Text>
+                          <Text style={styles.nameRap}>{item.tenRap}</Text>
                         </View>
                       </TouchableOpacity>
                       {showTime && (
@@ -74,18 +66,8 @@ const DetailMovies = ({route}) => {
                           onPress={() =>
                             navigation.navigate('BookTickets', item)
                           }
-                          style={{
-                            backgroundColor: 'hsla(0,0%,96%,.6)',
-                            width: 70,
-                            height: 50,
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                            borderRadius: 10,
-                            marginTop: 5,
-                            flex:1,
-                            flexWrap: "wrap",
-                          }}>
-                          <Text>
+                          style={styles.chooseTime}>
+                          <Text style={styles.centerTime}>
                             {moment(item.ngayGioChieu).format('hh:mm')}
                           </Text>
                         </TouchableOpacity>
@@ -95,8 +77,8 @@ const DetailMovies = ({route}) => {
                 );
               })}
             </View>
-            <View style={{marginTop: 15}}>
-              <Text style={{color: 'white', fontSize: 20}}>Nội dung</Text>
+            <View>
+              <Text style={styles.content}>Nội dung</Text>
               <Text style={Styles.overview}>{moTa}</Text>
             </View>
           </View>
@@ -105,5 +87,50 @@ const DetailMovies = ({route}) => {
     </>
   );
 };
+
+const styles = StyleSheet.create({
+  padding: {
+    padding: 10,
+  },
+  time: {
+    color: 'white',
+    marginLeft: 35,
+    fontSize: 20,
+  },
+  containnerLogo: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 15,
+  },
+  logo: {
+    height: 50,
+    width: 50,
+    borderRadius: 20,
+  },
+  nameRap: {
+    fontSize: 20,
+    marginLeft: 10,
+  },
+  chooseTime: {
+    flex: 1,
+    flexWrap: 'wrap',
+    backgroundColor: 'hsla(0,0%,96%,.6)',
+    justifyContent: 'center',
+    width: 70,
+    height: 50,
+    borderRadius: 10,
+    marginTop: 10,
+  },
+  centerTime: {
+    textAlign: 'center',
+    width: 70,
+  },
+  content: {
+    marginTop: 10,
+    color: 'white',
+    fontSize: 20,
+  },
+});
 
 export default DetailMovies;

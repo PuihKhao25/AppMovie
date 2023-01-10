@@ -1,11 +1,16 @@
 import React, {useContext, useState} from 'react';
-import {View, Text, Touchable, TouchableOpacity, Image} from 'react-native';
+import {
+  View,
+  Text,
+  Touchable,
+  TouchableOpacity,
+  Image,
+  StyleSheet,
+} from 'react-native';
 import {AuthContext} from '../Constants/AuthContext';
 import BtnLogin from '../Components/BtnLogin';
-import Background from '../Constants/Background';
-import {darkGreen} from '../Constants/Colors';
 import Field from '../Constants/Field';
-import Styles from '../Styles';
+
 import Spinner from 'react-native-loading-spinner-overlay';
 
 const Signup = ({navigation}) => {
@@ -15,24 +20,16 @@ const Signup = ({navigation}) => {
   const [mat_khau, setMat_khau] = useState('');
   const {isLoading, Register} = useContext(AuthContext);
   return (
-    <View style={{backgroundColor: '#041b2d'}}>
+    <View style={styles.container}>
       <Spinner visible={isLoading} />
-      <View style={{alignItems: 'center', width: 400}}>
-        <View style={{alignItems: 'center', width: 405}}>
+      <View style={styles.containerLogo}>
+        <View style={styles.backgroundLogo}>
           <Image
-            style={{width: 150, height: 150, marginTop: 50}}
+            style={styles.imageLogo}
             source={require('../assets/logomovie.png')}
           />
         </View>
-        <View
-          style={{
-            backgroundColor: '#041b2d',
-            height: 700,
-            width: 405,
-            borderTopLeftRadius: 130,
-            paddingTop: 50,
-            alignItems: 'center',
-          }}>
+        <View style={styles.titleRegisterNumber}>
           <Text
             style={{
               fontSize: 30,
@@ -70,25 +67,15 @@ const Signup = ({navigation}) => {
           <View style={{marginTop: 20}}>
             <BtnLogin
               LableBtn={'Đăng Ký'}
-              bgColor='#f47326'
+              bgColor="#f47326"
               onPress={() => {
                 Register(ho_ten, email, so_dt, mat_khau, setHo_ten);
               }}
             />
-            <View
-              style={{
-                display: 'flex',
-                flexDirection: 'row',
-                justifyContent: 'center',
-              }}>
-              <Text style={{fontSize: 13, fontWeight: 'bold',color:'#fff'}}>
-                Bạn đã có tài khoản ?
-              </Text>
+            <View style={styles.haveAccount}>
+              <Text style={styles.titleAccount}>Bạn đã có tài khoản ?</Text>
               <TouchableOpacity onPress={() => navigation.navigate('Login')}>
-                <Text
-                  style={{color: '#f47326', fontWeight: 'bold', fontSize: 14, marginLeft:5}}>
-                  Quay lại đăng nhập
-                </Text>
+                <Text style={styles.titleLogin}>Quay lại đăng nhập</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -97,5 +84,48 @@ const Signup = ({navigation}) => {
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: '#041b2d',
+  },
+  containerLogo: {
+    alignItems: 'center',
+    width: 400,
+  },
+  backgroundLogo: {
+    alignItems: 'center',
+    width: 405,
+  },
+  imageLogo: {
+    width: 150,
+    height: 150,
+    marginTop: 50,
+  },
+  titleRegisterNumber: {
+    backgroundColor: '#041b2d',
+    height: 700,
+    width: 405,
+    borderTopLeftRadius: 130,
+    paddingTop: 50,
+    alignItems: 'center',
+  },
+  haveAccount: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+  },
+  titleAccount: {
+    fontSize: 13,
+    fontWeight: 'bold',
+    color: '#fff',
+  },
+  titleLogin: {
+    color: '#f47326',
+    fontWeight: 'bold',
+    fontSize: 14,
+    marginLeft: 5,
+  },
+});
 
 export default Signup;

@@ -17,8 +17,7 @@ import Spinner from 'react-native-loading-spinner-overlay';
 
 const BookTickets = ({route}) => {
   const {isLoading, userInfo} = useContext(AuthContext);
-  const {maLichChieu, maRap, ngayGioChieu, tenRap, gia_thuong, gia_vip} =
-    route?.params;
+  const {maLichChieu, maRap, ngayGioChieu, tenRap, gia_thuong, gia_vip} = route?.params;
   const [chairs, setChairs] = useState([]);
   const [selectedChairs, setSelectedChairs] = useState([]);
   const tai_khoan = userInfo.content.taiKhoan;
@@ -59,7 +58,7 @@ const BookTickets = ({route}) => {
     ?.reduce((partialSum, a) => partialSum + a, 0);
 
   const codeChairs = JSON.stringify(selectedChairs?.map(i => i?.ma_ghe));
-  
+
   const submitBookTicts = () => {
     const valueSubmit = {
       tai_khoan: tai_khoan,
@@ -67,30 +66,60 @@ const BookTickets = ({route}) => {
       ma_ghe: codeChairs,
       tong_tien: sumPrice,
     };
-    return axios.post(`${API_URL}/api/QuanLyDatVe/DatVe`, valueSubmit)
-    .then(({ data }) => {
-      Alert.alert('Đặt vé thành công');
-    })
-    .catch(e => {
-      console.log(`BookTicks error ${e}`);
-    });
-  }
+    return axios
+      .post(`${API_URL}/api/QuanLyDatVe/DatVe`, valueSubmit)
+      .then(({data}) => {
+        Alert.alert('Đặt vé thành công');
+      })
+      .catch(e => {
+        console.log(`BookTicks error ${e}`);
+      });
+  };
   return (
     <View>
       <Spinner visible={isLoading} />
       <ScrollView style={Styles.sectionBg}>
-        <Text style={{color: 'red'}}>
-          {moment(ngayGioChieu).format('hh:mm')}
-        </Text>
-        <Text>{tenRap}</Text>
-
-        <View
-          style={{
-            flexDirection: 'row',
-            flexWrap: 'wrap',
-            padding: 15,
-            justifyContent: 'center',
-          }}>
+        <View style={styles.container}>
+          <View>
+            <Text style={[styles.titleColor,styles.fontSizeColor]}>Rạp: {tenRap}</Text>
+            <Text style={[styles.titleColor,styles.fontSizeColor]}>
+              Suất: {moment(ngayGioChieu).format('hh:mm')}
+            </Text>
+          </View>
+          <View>
+            <Text style={[styles.titleColor,styles.fontSizeColor]}>Tổng giá Vé: {sumPrice}</Text>
+          </View>
+          <View style={styles.BackgroundBookChair}>
+            <View style={styles.row}>
+              <View
+                style={[styles.BackgroundChair, styles.backgroundChairVip]}
+              />
+              <Text style={[styles.titleColor, styles.rightChair]}>
+                Ghế Vip
+              </Text>
+            </View>
+            <View style={styles.row}>
+              <View
+                style={[styles.BackgroundChair, styles.backgroundChairNormol]}
+              />
+              <Text style={[styles.titleColor, styles.rightChair]}>
+                Ghế Thường
+              </Text>
+            </View>
+            <View style={styles.row}>
+              <View
+                style={[
+                  styles.BackgroundChair,
+                  styles.backgroundChairSelecteds,
+                ]}
+              />
+              <Text style={[styles.titleColor, styles.rightChair]}>
+                Ghế Đã Đặt
+              </Text>
+            </View>
+          </View>
+        </View>
+        <View style={styles.containerChair}>
           {chairs?.map(item => {
             return (
               <>
@@ -113,7 +142,7 @@ const BookTickets = ({route}) => {
                       borderRadius: 2,
                     }}
                     onPress={() => handleSeletedChairs(item)}>
-                    <Text style={{color: 'white', textAlign: 'center'}}>
+                    <Text style={[styles.titleColor, styles.titleCenter]}>
                       {item.tenGhe}
                     </Text>
                   </TouchableOpacity>
@@ -122,27 +151,9 @@ const BookTickets = ({route}) => {
             );
           })}
         </View>
-        <View>
-          <Text>{sumPrice}</Text>
-        </View>
-        <View
-          style={{
-            flex: 1,
-            height: 50,
-            flexDirection: 'column',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}>
-          <TouchableOpacity
-            onPress={submitBookTicts}
-            style={{
-              backgroundColor: '#1d8fe1',
-              width: 100,
-              height: 40,
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}>
-            <Text style={{color: '#fff'}}>Mua Vé</Text>
+        <View style={styles.backgroundBookTicks}>
+          <TouchableOpacity onPress={submitBookTicts} style={styles.buyTicks}>
+            <Text style={styles.titleColor}>Mua Vé</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>
@@ -152,4 +163,66 @@ const BookTickets = ({route}) => {
 
 export default BookTickets;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: 'blue',
+    padding: 15,
+  },
+  row: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  BackgroundChair: {
+    width: 30,
+    height: 30,
+  },
+  buyTicks: {
+    backgroundColor: '#1d8fe1',
+    width: 100,
+    height: 40,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  titleColor: {
+    color: '#fff',
+  },
+  titleCenter: {
+    textAlign: 'center',
+  },
+  backgroundBookTicks: {
+    flex: 1,
+    height: 50,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  containerChair: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    padding: 15,
+    justifyContent: 'center',
+  },
+  BackgroundBookChair: {
+    flex: 1,
+    justifyContent: 'space-around',
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 7,
+  },
+  rightChair: {
+    marginLeft: 5,
+  },
+  backgroundChairVip: {
+    backgroundColor: 'red',
+  },
+  backgroundChairNormol: {
+    backgroundColor: 'yellow',
+  },
+  backgroundChairSelecteds: {
+    backgroundColor: 'pink',
+  },
+  fontSizeColor:{
+    fontSize:17
+  }
+});
