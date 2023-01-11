@@ -24,11 +24,11 @@ const CustomDrawer = props => {
         <DrawerItemList {...props} />
       </DrawerContentScrollView>
       <TouchableOpacity style={styles.containerLogout} onPress={handleLogout}>
-        <View style={{}}>
-          <Text style={{color: 'white'}}>
-            <Icon name="log-out-outline" color={'white'} size={25} />
-            Log Out
-          </Text>
+        <View style={{flex: 1, flexDirection: 'row', alignItems: 'center'}}>
+          <View>
+            <Icon name="log-out-outline" color={'white'} size={33} />
+          </View>
+          <Text style={{color: 'white', marginLeft: 20}}>Log Out</Text>
         </View>
       </TouchableOpacity>
     </View>

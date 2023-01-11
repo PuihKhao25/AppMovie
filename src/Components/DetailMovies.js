@@ -9,7 +9,6 @@ import {
   StyleSheet,
 } from 'react-native';
 import Styles from '../Styles';
-import Video from 'react-native-video';
 import axios from 'axios';
 import YoutubePlayer from 'react-native-youtube-iframe';
 import {useNavigation} from '@react-navigation/native';
@@ -38,7 +37,11 @@ const DetailMovies = ({route}) => {
   }, []);
   return (
     <>
-      <HeaderSreen iconLeft onIconLeft={navigation.goBack} title={'Detail'} />
+      <HeaderSreen
+        iconLeft
+        onIconLeft={navigation.goBack}
+        title={'Chi tiết phim'}
+      />
       <ScrollView style={Styles.sectionBg}>
         <View>
           <YoutubePlayer height={300} play={true} videoId={trailer} />

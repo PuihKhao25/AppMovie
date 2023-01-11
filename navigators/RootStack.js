@@ -7,6 +7,8 @@ import DrawerNavigator from '../src/Components/DrawerNaviagtor';
 
 import DetailMovies from '../src/Components/DetailMovies';
 import BookTickets from '../src/Components/BookTickets';
+import EditProfile from '../src/Components/EditProfile';
+import Profile from '../src/Components/Profile';
 
 import {AuthStack} from '../src/Components/AuthStack';
 
@@ -24,6 +26,8 @@ const RootStack = () => {
           <Stack.Screen name="DrawerNavigator" component={DrawerNavigator} />
           <Stack.Screen name="DetailMovies" component={DetailMovies} />
           <Stack.Screen name="BookTickets" component={BookTickets} />
+          <Stack.Screen name="EditProfile" component={EditProfile} />
+          <Stack.Screen name="Profile" component={Profile} />
         </Stack.Navigator>
       ) : (
         <AuthStack />

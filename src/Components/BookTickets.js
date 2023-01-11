@@ -7,7 +7,6 @@ import {
   ScrollView,
   TouchableOpacity,
   Alert,
-  Image,
 } from 'react-native';
 import React, {useEffect, useState, useContext} from 'react';
 import Styles from '../Styles';
@@ -19,7 +18,8 @@ import HeaderSreen from './HeaderSreen';
 
 const BookTickets = ({route}) => {
   const {isLoading, userInfo} = useContext(AuthContext);
-  const {maLichChieu, maRap, ngayGioChieu, tenRap, gia_thuong, gia_vip} = route?.params;
+  const {maLichChieu, maRap, ngayGioChieu, tenRap, gia_thuong, gia_vip} =
+    route?.params;
   const [chairs, setChairs] = useState([]);
   const [selectedChairs, setSelectedChairs] = useState([]);
   const navigation = useNavigation();
@@ -79,21 +79,24 @@ const BookTickets = ({route}) => {
       });
   };
   return (
-    
     <View>
-       <HeaderSreen iconLeft onIconLeft={navigation.goBack} title={'Detail'} />
+      <HeaderSreen iconLeft onIconLeft={navigation.goBack} title={'Đặt vé'} />
       <Spinner visible={isLoading} />
-     
+
       <ScrollView horizontal={false} style={Styles.sectionBg}>
         <View style={styles.container}>
           <View>
-            <Text style={[styles.titleColor,styles.fontSizeColor]}>Rạp: {tenRap}</Text>
-            <Text style={[styles.titleColor,styles.fontSizeColor]}>
+            <Text style={[styles.titleColor, styles.fontSizeColor]}>
+              Rạp: {tenRap}
+            </Text>
+            <Text style={[styles.titleColor, styles.fontSizeColor]}>
               Suất: {moment(ngayGioChieu).format('hh:mm')}
             </Text>
           </View>
           <View>
-            <Text style={[styles.titleColor,styles.fontSizeColor]}>Tổng giá Vé: {sumPrice}</Text>
+            <Text style={[styles.titleColor, styles.fontSizeColor]}>
+              Tổng giá Vé: {sumPrice}
+            </Text>
           </View>
           <View style={styles.BackgroundBookChair}>
             <View style={styles.row}>
@@ -162,7 +165,6 @@ const BookTickets = ({route}) => {
             <Text style={styles.titleColor}>Mua Vé</Text>
           </TouchableOpacity>
         </View>
-
       </ScrollView>
     </View>
   );
@@ -230,7 +232,7 @@ const styles = StyleSheet.create({
   backgroundChairSelecteds: {
     backgroundColor: 'pink',
   },
-  fontSizeColor:{
-    fontSize:17
-  }
+  fontSizeColor: {
+    fontSize: 17,
+  },
 });

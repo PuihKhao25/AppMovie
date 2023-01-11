@@ -11,7 +11,7 @@ export default function TrendingMovies() {
   useEffect(() => {
     async function getflim() {
       const res = await axios.get(
-        API_URL + '/api/QuanLyPhim/LayDanhSachPhim?keyword=1&status=1'
+        API_URL + '/api/QuanLyPhim/LayDanhSachPhim?keyword=1&status=1',
       );
       return res;
     }

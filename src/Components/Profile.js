@@ -1,41 +1,20 @@
 import React, {useEffect, useState, useContext} from 'react';
-import {Text, View, StyleSheet, TextInput, Button, Alert} from 'react-native';
-import {useForm, Controller} from 'react-hook-form';
+import {Text, View, StyleSheet, TouchableOpacity} from 'react-native';
 import axios from 'axios';
 import API_URL from '../Services/API';
 import {AuthContext} from '../Constants/AuthContext';
-import {configApi} from '../Services/API';
-export default function App() {
+import {useNavigation} from '@react-navigation/native';
+
+export default function Profile() {
+  const navigation = useNavigation();
   const {userInfo} = useContext(AuthContext);
   const {taiKhoan} = userInfo.content;
   const [info, setInfo] = useState();
-  const {
-    register,
-    setValue,
-    handleSubmit,
-    control,
-    reset,
-    formState: {errors},
-  } = useForm();
   let config = {
     headers: {
       Authorization: 'Bearer ' + userInfo.content.accessToken,
     },
   };
-  const onSubmit = async data => {
-    const newData = {
-      ho_ten: data?.ho_ten,
-      so_dt: data?.so_dt,
-    };
-    await axios
-      .put(
-        `${API_URL}/api/QuanLyNguoiDung/CapNhatThongTinNguoiDung/${taiKhoan}`,
-        newData,
-        config,
-      )
-      .then(res => Alert.alert('Chỉnh sửa thành công'));
-  };
-
   const getInfoUser = async () => {
     await axios
       .get(`${API_URL}/api/QuanLyNguoiDung/ThongTinTaiKhoan/${taiKhoan}`)
@@ -45,60 +24,43 @@ export default function App() {
       })
       .catch(e => console.log(`Errro ${e}`));
   };
-
   useEffect(() => {
     getInfoUser();
   }, []);
-
   return (
-    <View style={styles.container}>
-      <Text style={styles.label}>Họ và tên</Text>
-      <Controller
-        control={control}
-        render={({field: {onChange, onBlur, value}}) => (
-          <TextInput
-            style={styles.input}
-            onBlur={onBlur}
-            onChangeText={value => onChange(value)}
-            defaultValue={info?.hoTen}
-          />
-        )}
-        name="ho_ten"
-        rules={{required: true}}
-      />
-      <Text style={styles.label}>Số điện thoại</Text>
-      <Controller
-        control={control}
-        render={({field: {onChange, onBlur, value}}) => (
-          <TextInput
-            style={styles.input}
-            onBlur={onBlur}
-            onChangeText={value => onChange(value)}
-            defaultValue={info?.soDT}
-          />
-        )}
-        name="so_dt"
-        rules={{required: true}}
-      />
-
-      <View style={styles.button}>
-        <Button
-          style={styles.buttonInner}
-          color
-          title="Lưu"
-          onPress={handleSubmit(onSubmit)}
-        />
+    <>
+      <View style={styles.container}>
+        <View
+          style={{
+            borderWidth: 2,
+            borderColor: '#fff',
+            borderRadius: 10,
+            padding: 10,
+          }}>
+          <Text style={styles.titleColor}>Tài Khoản: {info?.taiKhoan}</Text>
+          <Text style={styles.titleColor}>Họ và Tên: {info?.hoTen} </Text>
+          <Text style={styles.titleColor}>Số điện thoại: {info?.soDt} </Text>
+          <Text style={styles.titleColor}>Email: {info?.email}</Text>
+        </View>
+        <View style={{marginTop: 10, height: 40}}>
+          <TouchableOpacity
+            onPress={() => navigation.navigate('EditProfile')}
+            style={{
+              flex: 1,
+              justifyContent: 'center',
+              alignItems: 'center',
+              backgroundColor: 'blue',
+              width: 100,
+            }}>
+            <Text style={{color: '#fff', textAlign: 'center'}}>Sửa</Text>
+          </TouchableOpacity>
+        </View>
       </View>
-    </View>
+    </>
   );
 }
 
 const styles = StyleSheet.create({
-  label: {
-    color: 'white',
-    margin: 20,
-    marginLeft: 0,
-  },
   button: {
     marginTop: 40,
     color: 'white',
@@ -108,14 +70,10 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    padding: 8,
+    padding: 10,
     backgroundColor: '#0e101c',
   },
-  input: {
-    backgroundColor: 'white',
-    borderColor: 'none',
-    height: 40,
-    padding: 10,
-    borderRadius: 4,
+  titleColor: {
+    color: '#fff',
   },
 });
