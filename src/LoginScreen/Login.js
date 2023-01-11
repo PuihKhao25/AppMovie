@@ -5,8 +5,8 @@ import {AuthContext} from '../Constants/AuthContext';
 import Spinner from 'react-native-loading-spinner-overlay';
 
 const Login = ({navigation}) => {
-  const [hoTen, setHo_ten] = useState(null);
-  const [matKhau, setMat_khau] = useState('');
+  const [hoTen, setHo_ten] = useState('khao25');
+  const [matKhau, setMat_khau] = useState('123456');
   const {isLoading, login} = useContext(AuthContext);
 
   return (

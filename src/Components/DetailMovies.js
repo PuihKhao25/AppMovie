@@ -15,6 +15,7 @@ import YoutubePlayer from 'react-native-youtube-iframe';
 import {useNavigation} from '@react-navigation/native';
 import moment from 'moment/moment';
 import API_URL from '../Services/API';
+import HeaderSreen from './HeaderSreen';
 
 const DetailMovies = ({route}) => {
   const [times, setTimes] = useState([]);
@@ -37,6 +38,7 @@ const DetailMovies = ({route}) => {
   }, []);
   return (
     <>
+      <HeaderSreen iconLeft onIconLeft={navigation.goBack} title={'Detail'} />
       <ScrollView style={Styles.sectionBg}>
         <View>
           <YoutubePlayer height={300} play={true} videoId={trailer} />

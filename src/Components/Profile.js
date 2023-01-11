@@ -1,156 +1,121 @@
-import React, {useState, useEffect, useContext} from 'react';
-import {
-  View,
-  Text,
-  ScrollView,
-  Image,
-  TextInput,
-  TouchableOpacity,
-  Modal,
-  StyleSheet,
-  Button,
-  Pressable,
-} from 'react-native';
-import Styles from '../Styles';
+import React, {useEffect, useState, useContext} from 'react';
+import {Text, View, StyleSheet, TextInput, Button, Alert} from 'react-native';
+import {useForm, Controller} from 'react-hook-form';
+import axios from 'axios';
+import API_URL from '../Services/API';
 import {AuthContext} from '../Constants/AuthContext';
-
-const Profile = () => {
-  const {userInfo, profile, getProfileUser} = useContext(AuthContext);
-  const id = userInfo.content.taiKhoan;
-  const maLoaiNguoiDung = userInfo.content.maLoaiNguoiDung;
-  const hoTen = userInfo.content.hoTen;
-  const email = userInfo.content.email;
-  const soDt = userInfo.content.soDt;
-  const [modalVisible, setModalVisible] = useState(false);
-  const [name, setName] = useState();
-  const handleChangeInfomation = event => {
-    setModalVisible(true);
-    setName(event.text);
+import {configApi} from '../Services/API';
+export default function App() {
+  const {userInfo} = useContext(AuthContext);
+  const {taiKhoan} = userInfo.content;
+  const [info, setInfo] = useState();
+  const {
+    register,
+    setValue,
+    handleSubmit,
+    control,
+    reset,
+    formState: {errors},
+  } = useForm();
+  let config = {
+    headers: {
+      Authorization: 'Bearer ' + userInfo.content.accessToken,
+    },
   };
+  const onSubmit = async data => {
+    const newData = {
+      ho_ten: data?.ho_ten,
+      so_dt: data?.so_dt,
+    };
+    await axios
+      .put(
+        `${API_URL}/api/QuanLyNguoiDung/CapNhatThongTinNguoiDung/${taiKhoan}`,
+        newData,
+        config,
+      )
+      .then(res => Alert.alert('Chỉnh sửa thành công'));
+  };
+
+  const getInfoUser = async () => {
+    await axios
+      .get(`${API_URL}/api/QuanLyNguoiDung/ThongTinTaiKhoan/${taiKhoan}`)
+      .then(res => {
+        const infoData = res?.data?.content;
+        setInfo(infoData);
+      })
+      .catch(e => console.log(`Errro ${e}`));
+  };
+
+  useEffect(() => {
+    getInfoUser();
+  }, []);
+
   return (
-    <>
-      <View style={styles.container}>
-        <View style={styles.backgroundInfo}>
-          <Text style={styles.titleColor}>tai khoản : {id}</Text>
-          <Text style={styles.titleColor}>Họ tên : {hoTen}</Text>
-          <Text style={styles.titleColor}>Email : {email} </Text>
-          <Text style={styles.titleColor}> Số điện thoại: {soDt} </Text>
-          <Text style={styles.titleColor}>
-            Mã loại người dùng : {maLoaiNguoiDung}
-          </Text>
-        </View>
-        <View style={styles.centeredView}>
-          <Modal
-            animationType="slide"
-            transparent={true}
-            visible={modalVisible}
-            onRequestClose={() => {
-              Alert.alert('Modal has been closed.');
-              setModalVisible(!modalVisible);
-            }}>
-            <View style={styles.centeredView}>
-              <View style={styles.modalView}>
-                <Text style={styles.modalText}>Hello World!</Text>
-                <TextInput
-                  onChangeText={text => handleChangeInfomation(text)}
-                  defaultValue={name}
-                  editable={true}
-                  multiline={false}
-                />
-                <View style={styles.buttonModal}>
-                  <Pressable
-                    style={[styles.button, styles.buttonSave]}
-                    onPress={() => setModalVisible(!modalVisible)}>
-                    <Text style={styles.textStyle}>Lưu</Text>
-                  </Pressable>
-                  <Pressable
-                    style={[styles.button, styles.buttonClose]}
-                    onPress={() => setModalVisible(!modalVisible)}>
-                    <Text style={styles.textStyle}>Đóng</Text>
-                  </Pressable>
-                </View>
-              </View>
-            </View>
-          </Modal>
-          <Pressable
-            style={[styles.button, styles.buttonOpen]}
-            onPress={() => setModalVisible(true)}>
-            <Text style={styles.textStyle}>Sửa thông tin</Text>
-          </Pressable>
-        </View>
+    <View style={styles.container}>
+      <Text style={styles.label}>Họ và tên</Text>
+      <Controller
+        control={control}
+        render={({field: {onChange, onBlur, value}}) => (
+          <TextInput
+            style={styles.input}
+            onBlur={onBlur}
+            onChangeText={value => onChange(value)}
+            defaultValue={info?.hoTen}
+          />
+        )}
+        name="ho_ten"
+        rules={{required: true}}
+      />
+      <Text style={styles.label}>Số điện thoại</Text>
+      <Controller
+        control={control}
+        render={({field: {onChange, onBlur, value}}) => (
+          <TextInput
+            style={styles.input}
+            onBlur={onBlur}
+            onChangeText={value => onChange(value)}
+            defaultValue={info?.soDT}
+          />
+        )}
+        name="so_dt"
+        rules={{required: true}}
+      />
+
+      <View style={styles.button}>
+        <Button
+          style={styles.buttonInner}
+          color
+          title="Lưu"
+          onPress={handleSubmit(onSubmit)}
+        />
       </View>
-    </>
+    </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#151C26',
-    padding: 10,
-  },
-  centeredView: {
-    flex: 1,
-    alignItems: 'center',
-    marginTop: 22,
-  },
-  modalView: {
-    backgroundColor: 'yellow',
+  label: {
+    color: 'white',
     margin: 20,
-    backgroundColor: 'white',
-    borderRadius: 20,
-    padding: 35,
-    alignItems: 'center',
-    shadowColor: '#000',
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
-    height: 400,
-    width: 300,
+    marginLeft: 0,
   },
   button: {
-    borderRadius: 20,
-    padding: 10,
-    elevation: 2,
-    height: 40,
-    width: 80,
-  },
-  buttonOpen: {
-    backgroundColor: '#F194FF',
-  },
-  buttonClose: {
-    backgroundColor: 'red',
-  },
-  buttonSave: {
-    backgroundColor: '#2196F3',
-  },
-  textStyle: {
+    marginTop: 40,
     color: 'white',
-    fontWeight: 'bold',
-    textAlign: 'center',
+    height: 40,
+    backgroundColor: '#ec5990',
+    borderRadius: 4,
   },
-  modalText: {
-    color: 'red',
-    marginBottom: 15,
-    textAlign: 'center',
-  },
-  titleColor: {
-    color: '#fff',
-  },
-  buttonModal: {
+  container: {
     flex: 1,
-    justifyContent: 'space-around',
-    flexDirection: 'row',
-    width: 200,
+    padding: 8,
+    backgroundColor: '#0e101c',
   },
-  backgroundInfo: {
-    height: 130,
-    borderWidth: 2,
-    borderColor: 'white',
-    borderRadius: 20,
-    padding: 15,
-    marginTop: 20,
+  input: {
+    backgroundColor: 'white',
+    borderColor: 'none',
+    height: 40,
+    padding: 10,
+    borderRadius: 4,
   },
 });
-
-export default Profile;

@@ -14,12 +14,15 @@ import Styles from '../Styles';
 import {AuthContext} from '../Constants/AuthContext';
 import moment from 'moment/moment';
 import Spinner from 'react-native-loading-spinner-overlay';
+import {useNavigation} from '@react-navigation/native';
+import HeaderSreen from './HeaderSreen';
 
 const BookTickets = ({route}) => {
   const {isLoading, userInfo} = useContext(AuthContext);
   const {maLichChieu, maRap, ngayGioChieu, tenRap, gia_thuong, gia_vip} = route?.params;
   const [chairs, setChairs] = useState([]);
   const [selectedChairs, setSelectedChairs] = useState([]);
+  const navigation = useNavigation();
   const tai_khoan = userInfo.content.taiKhoan;
   useEffect(() => {
     async function getflim() {
@@ -76,9 +79,12 @@ const BookTickets = ({route}) => {
       });
   };
   return (
+    
     <View>
+       <HeaderSreen iconLeft onIconLeft={navigation.goBack} title={'Detail'} />
       <Spinner visible={isLoading} />
-      <ScrollView style={Styles.sectionBg}>
+     
+      <ScrollView horizontal={false} style={Styles.sectionBg}>
         <View style={styles.container}>
           <View>
             <Text style={[styles.titleColor,styles.fontSizeColor]}>Rạp: {tenRap}</Text>
@@ -156,6 +162,7 @@ const BookTickets = ({route}) => {
             <Text style={styles.titleColor}>Mua Vé</Text>
           </TouchableOpacity>
         </View>
+
       </ScrollView>
     </View>
   );
@@ -196,6 +203,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
+    marginBottom: 100,
   },
   containerChair: {
     flexDirection: 'row',
