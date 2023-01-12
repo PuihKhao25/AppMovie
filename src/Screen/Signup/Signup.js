@@ -7,9 +7,9 @@ import {
   Image,
   StyleSheet,
 } from 'react-native';
-import {AuthContext} from '../Constants/AuthContext';
-import BtnLogin from '../Components/BtnLogin';
-import Field from '../Constants/Field';
+import {AuthContext} from '../../Constants/AuthContext';
+import BtnLogin from '../../Components/BtnLogin';
+import Field from '../../Constants/Field';
 
 import Spinner from 'react-native-loading-spinner-overlay';
 
@@ -26,7 +26,7 @@ const Signup = ({navigation}) => {
         <View style={styles.backgroundLogo}>
           <Image
             style={styles.imageLogo}
-            source={require('../assets/logomovie.png')}
+            source={require('../../assets/logomovie.png')}
           />
         </View>
         <View style={styles.titleRegisterNumber}>

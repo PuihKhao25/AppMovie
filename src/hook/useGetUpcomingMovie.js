@@ -1,7 +1,7 @@
 import axios from 'axios';
 import {useEffect, useState} from 'react';
 import API_URL from '../Services/API';
-const upcomingMovie = () => {
+const useGetUpcomingMovie = () => {
   const [data, setData] = useState([]);
   const getUpcomingMovie = async () => {
     return await axios
@@ -22,4 +22,4 @@ const upcomingMovie = () => {
   };
 };
 
-export default upcomingMovie;
+export default useGetUpcomingMovie;

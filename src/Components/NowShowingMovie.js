@@ -4,10 +4,10 @@ import axios from 'axios';
 import Styles from '../Styles';
 import {useNavigation} from '@react-navigation/native';
 import API_URL from '../Services/API';
-import {upcomingMovie} from '../hook';
+import {useGetUpcomingMovie} from '../hook';
 export default function NowShowingMovie() {
   const navigation = useNavigation();
-  const {movies} = upcomingMovie();
+  const {movies} = useGetUpcomingMovie();
   return (
     <>
       <View>

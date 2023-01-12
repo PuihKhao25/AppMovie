@@ -1,6 +1,6 @@
 import React from 'react';
 import {View, Text, ScrollView, Image} from 'react-native';
-import Styles from '../Styles';
+import Styles from '../../Styles';
 
 const SplashScreen = () => {
   return (

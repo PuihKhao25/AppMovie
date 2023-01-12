@@ -1,7 +1,7 @@
 import React, {useContext, useState} from 'react';
 import {View, Text, TouchableOpacity, Image, StyleSheet} from 'react-native';
-import Field from '../Constants/Field';
-import {AuthContext} from '../Constants/AuthContext';
+import Field from '../../Constants/Field';
+import {AuthContext} from '../../Constants/AuthContext';
 import Spinner from 'react-native-loading-spinner-overlay';
 
 const Login = ({navigation}) => {
@@ -16,7 +16,7 @@ const Login = ({navigation}) => {
         <View style={styles.backgroundImage}>
           <Image
             style={styles.imgaeLogo}
-            source={require('../assets/logomovie.png')}
+            source={require('../../assets/logomovie.png')}
           />
         </View>
         <View style={styles.containerLogin}>

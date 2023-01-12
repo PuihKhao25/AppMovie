@@ -1,7 +1,9 @@
 import useGetBanner from "./useGetBanner";
-import upcomingMovie from "./upcomingMovie";
+import useGetUpcomingMovie from "./useGetUpcomingMovie";
+import useGetMoviePlaying from "./useGetMoviePlaying";
 
 export {
     useGetBanner,
-    upcomingMovie
+    useGetUpcomingMovie,
+    useGetMoviePlaying
 }
