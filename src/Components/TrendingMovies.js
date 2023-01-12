@@ -25,7 +25,7 @@ export default function TrendingMovies() {
       <View>
         <Text style={Styles.heading}>Phim Sắp Chiếu</Text>
         <FlatList
-          keyExtractor={item => item.banner}
+          keyExtractor={(item, index) => item.banner || index}
           data={movies}
           horizontal
           renderItem={item => displayMovies(item)}
@@ -33,16 +33,15 @@ export default function TrendingMovies() {
       </View>
     </>
   );
-  function displayMovies({item}) {
+  function displayMovies({item, index}) {
     return (
-      <>
-        <TouchableOpacity
-          onPress={() => navigation.navigate('DetailMovies', {item})}
-          style={{marginHorizontal: 10}}>
-          <Image source={{uri: item.hinhAnh}} style={Styles.posterImage} />
-          <Text style={Styles.movieTitle}>{item.ten_phim}</Text>
-        </TouchableOpacity>
-      </>
+      <TouchableOpacity
+        key={item?.maPhim}
+        onPress={() => navigation.navigate('DetailMovies', {item})}
+        style={{marginHorizontal: 10}}>
+        <Image source={{uri: item.hinhAnh}} style={Styles.posterImage} />
+        <Text style={Styles.movieTitle}>{item.ten_phim}</Text>
+      </TouchableOpacity>
     );
   }
 }

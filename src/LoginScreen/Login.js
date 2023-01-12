@@ -21,7 +21,6 @@ const Login = ({navigation}) => {
         </View>
         <View style={styles.containerLogin}>
           <Text style={styles.loginNumber}>Đăng Nhập Thành Viên</Text>
-
           <Field
             style={styles.EnterField}
             placeholder="Nhập họ tên"

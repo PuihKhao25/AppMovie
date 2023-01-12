@@ -8,26 +8,15 @@ import {
   StyleSheet,
   Dimensions,
 } from 'react-native';
-import axios from 'axios';
-import API_URL from '../Services/API';
+import {useGetBanner} from '../hook';
 
 const WIDTH = Dimensions.get('window').width;
 const HEIGHT = Dimensions.get('window').height;
 const BannerMovies = () => {
-  const [movies, setMovies] = useState([]);
-  const [itemCategory, SetitemCategory] = useState('1');
   const [imgActive, setimgActive] = useState(0);
-  useEffect(() => {
-    async function getBanner() {
-      const res = await axios.get(`${API_URL}/api/QuanLyPhim/LayDanhSachBanner`);
-      return res;
-    }
-    getBanner().then(response => {
-      const result =response.data.content;
-      setMovies(result);
-    });
-  }, [itemCategory]);
-  onchange = nativeEvent => {
+  const {banners, loading} = useGetBanner({});
+
+  const onchange = nativeEvent => {
     if (nativeEvent) {
       const silde = Math.ceil(
         nativeEvent.contentOffset.x / nativeEvent.layoutMeasurement.width,
@@ -47,35 +36,31 @@ const BannerMovies = () => {
             pagingEnabled
             horizontal
             style={style.wrap}>
-            {
-             
-            movies?.map((item,index) => {
+            {banners?.map(item => {
               return (
-                <>
-                  <Image
-                    key={index}
-                    resizeMode="stretch"
-                    style={style.wrap}
-                    source={{
-                      uri: item?.hinh_anh,
-                    }}
-                  />
-                </>
+                <Image
+                  key={item?.ma_banner}
+                  resizeMode="stretch"
+                  style={style.wrap}
+                  source={{
+                    uri: item?.hinh_anh,
+                  }}
+                />
               );
             })}
           </ScrollView>
-          {/* <View style={style.wrapDot}>
-            {movies.map((item, index) => {
+          <View style={style.wrapDot}>
+            {banners?.map((item, index) => {
               // console.log('item', imgActive, item);
               return (
                 <Text
-                  key={index}
+                  key={item?.ma_banner}
                   style={imgActive === index ? style.dotActive : style.dot}>
                   ●
                 </Text>
               );
             })}
-          </View> */}
+          </View>
         </View>
       </SafeAreaView>
     </>

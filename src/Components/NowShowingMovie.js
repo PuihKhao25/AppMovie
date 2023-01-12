@@ -4,27 +4,16 @@ import axios from 'axios';
 import Styles from '../Styles';
 import {useNavigation} from '@react-navigation/native';
 import API_URL from '../Services/API';
+import {upcomingMovie} from '../hook';
 export default function NowShowingMovie() {
   const navigation = useNavigation();
-  const [movies, setMovies] = useState([]);
-  useEffect(() => {
-    async function getflim() {
-      const res = await axios.get(
-        API_URL + '/api/QuanLyPhim/LayDanhSachPhim?keyword=1&status=0',
-      );
-      return res;
-    }
-    getflim().then(response => {
-      const result = response.data.content;
-      setMovies(result);
-    });
-  }, []);
+  const {movies} = upcomingMovie();
   return (
     <>
       <View>
         <Text style={Styles.heading}>Phim Đang Chiếu</Text>
         <FlatList
-          keyExtractor={item => item.banner}
+          keyExtractor={(item, index) => item.maPhim || index}
           data={movies}
           horizontal
           renderItem={item => displayMovies(item)}
@@ -36,6 +25,7 @@ export default function NowShowingMovie() {
     return (
       <>
         <TouchableOpacity
+          key={item?.maPhim}
           onPress={() => navigation.navigate('DetailMovies', {item})}
           style={{marginHorizontal: 10}}>
           <Image source={{uri: item.hinhAnh}} style={Styles.posterImage} />
