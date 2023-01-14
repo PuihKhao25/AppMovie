@@ -1,10 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import {Text, View, FlatList, TouchableOpacity, Image} from 'react-native';
 import axios from 'axios';
-import Styles from '../Styles';
+import Styles from '../../Styles';
 import {useNavigation} from '@react-navigation/native';
-import API_URL from '../Services/API';
-import {useGetUpcomingMovie} from '../hook';
+import API_URL from '../../Services/API';
+import {useGetUpcomingMovie} from '../../hook';
 export default function NowShowingMovie() {
   const navigation = useNavigation();
   const {movies} = useGetUpcomingMovie();

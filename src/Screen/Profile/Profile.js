@@ -1,9 +1,8 @@
 import React, {useEffect, useState, useContext} from 'react';
 import {Text, View, StyleSheet, TouchableOpacity} from 'react-native';
-import axios from 'axios';
-import API_URL from '../Services/API';
-import {AuthContext} from '../Constants/AuthContext';
+import {AuthContext} from '../../Constants/AuthContext';
 import {useNavigation} from '@react-navigation/native';
+import {useGetUserProfile} from '../../hook';
 
 export default function Profile() {
   const navigation = useNavigation();
@@ -15,18 +14,8 @@ export default function Profile() {
       Authorization: 'Bearer ' + userInfo.content.accessToken,
     },
   };
-  const getInfoUser = async () => {
-    await axios
-      .get(`${API_URL}/api/QuanLyNguoiDung/ThongTinTaiKhoan/${taiKhoan}`)
-      .then(res => {
-        const infoData = res?.data?.content;
-        setInfo(infoData);
-      })
-      .catch(e => console.log(`Errro ${e}`));
-  };
-  useEffect(() => {
-    getInfoUser();
-  }, []);
+  const {profile} = useGetUserProfile({taiKhoan});
+
   return (
     <>
       <View style={styles.container}>
@@ -37,10 +26,12 @@ export default function Profile() {
             borderRadius: 10,
             padding: 10,
           }}>
-          <Text style={styles.titleColor}>Tài Khoản: {info?.taiKhoan}</Text>
-          <Text style={styles.titleColor}>Họ và Tên: {info?.hoTen} </Text>
-          <Text style={styles.titleColor}>Số điện thoại: {info?.soDt} </Text>
-          <Text style={styles.titleColor}>Email: {info?.email}</Text>
+          <Text style={styles.titleColor}>
+            Tài Khoản: {profile?.taiKhoan}
+          </Text>
+          <Text style={styles.titleColor}>Họ và Tên: {profile?.hoTen} </Text>
+          <Text style={styles.titleColor}>Số điện thoại: {profile?.soDt} </Text>
+          <Text style={styles.titleColor}>Email: {profile?.email}</Text>
         </View>
         <View style={{marginTop: 10, height: 40}}>
           <TouchableOpacity

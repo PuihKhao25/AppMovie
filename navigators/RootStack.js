@@ -5,10 +5,10 @@ import {AuthContext} from '../src/Constants/AuthContext';
 import 'react-native-gesture-handler';
 import DrawerNavigator from '../src/Components/DrawerNaviagtor';
 
-import DetailMovies from '../src/Components/DetailMovies';
+import DetailMovies from '../src/Screen/Movies/DetailMovies';
 import BookTickets from '../src/Components/BookTickets';
-import EditProfile from '../src/Components/EditProfile';
-import Profile from '../src/Components/Profile';
+import EditProfile from '../src/Screen/Profile/EditProfile';
+import Profile from '../src/Screen/Profile/Profile';
 
 import {AuthStack} from '../src/Components/AuthStack';
 

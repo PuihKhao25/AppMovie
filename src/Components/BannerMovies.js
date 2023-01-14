@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {
   View,
   Text,
@@ -51,7 +51,6 @@ const BannerMovies = () => {
           </ScrollView>
           <View style={style.wrapDot}>
             {banners?.map((item, index) => {
-              // console.log('item', imgActive, item);
               return (
                 <Text
                   key={item?.ma_banner}

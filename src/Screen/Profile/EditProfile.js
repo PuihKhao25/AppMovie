@@ -1,17 +1,19 @@
-import React, {useEffect, useState, useContext} from 'react';
+import React, {useState, useContext} from 'react';
 import {Text, View, StyleSheet, TextInput, Button, Alert} from 'react-native';
 import {useForm, Controller} from 'react-hook-form';
 import axios from 'axios';
-import API_URL from '../Services/API';
-import {AuthContext} from '../Constants/AuthContext';
+import API_URL from '../../Services/API';
+import {AuthContext} from '../../Constants/AuthContext';
 import {useNavigation} from '@react-navigation/native';
-import HeaderSreen from './HeaderSreen';
+import HeaderSreen from '../../Components/HeaderSreen';
+import {useGetUserProfile} from '../../hook';
+import {useEditProfile} from '../../hook';
 
 export default function EditProfile() {
   const navigation = useNavigation();
   const {userInfo} = useContext(AuthContext);
   const {taiKhoan} = userInfo.content;
-  const [info, setInfo] = useState();
+  const {profile} = useGetUserProfile({taiKhoan});
   const {
     register,
     setValue,
@@ -20,18 +22,11 @@ export default function EditProfile() {
     reset,
     formState: {errors},
   } = useForm();
-  let config = {
-    headers: {
-      Authorization: 'Bearer ' + userInfo.content.accessToken,
-    },
-  };
   const onSubmit = async data => {
-    console.log('data', data);
     const newData = {
-      ho_ten: data?.ho_ten || hoTen,
-      so_dt: data?.so_dt || soDT,
+      ho_ten: data?.ho_ten,
+      so_dt: data?.so_dt ,
     };
-    console.log('newData', newData);
     await axios
       .put(
         `${API_URL}/api/QuanLyNguoiDung/CapNhatThongTinNguoiDung/${taiKhoan}`,
@@ -41,23 +36,13 @@ export default function EditProfile() {
       .then(res => navigation.navigate('Profile'));
   };
 
-  const getInfoUser = async () => {
-    await axios
-      .get(`${API_URL}/api/QuanLyNguoiDung/ThongTinTaiKhoan/${taiKhoan}`)
-      .then(res => {
-        const infoData = res?.data?.content;
-        setInfo(infoData);
-      })
-      .catch(e => console.log(`Errro ${e}`));
-  };
-
-  useEffect(() => {
-    getInfoUser();
-  }, []);
-
   return (
     <>
-      <HeaderSreen iconLeft onIconLeft={navigation.goBack} title={'Chỉnh sửa thông tin'} />
+      <HeaderSreen
+        iconLeft
+        onIconLeft={navigation.goBack}
+        title={'Chỉnh sửa thông tin'}
+      />
       <View style={styles.container}>
         <Text style={styles.label}>Họ và tên</Text>
         <Controller
@@ -67,7 +52,7 @@ export default function EditProfile() {
               style={styles.input}
               onBlur={onBlur}
               onChangeText={value => onChange(value)}
-              defaultValue={info?.hoTen}
+              defaultValue={profile?.hoTen}
             />
           )}
           name="ho_ten"
@@ -81,7 +66,7 @@ export default function EditProfile() {
               style={styles.input}
               onBlur={onBlur}
               onChangeText={value => onChange(value)}
-              defaultValue={info?.soDT}
+              defaultValue={profile?.soDT}
             />
           )}
           name="so_dt"

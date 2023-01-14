@@ -7,7 +7,7 @@ import {
 } from '@react-navigation/drawer';
 import Styles from '../Styles';
 import Home from '../Screen/Home';
-import Profile from './Profile';
+import Profile from '../Screen/Profile/Profile';
 import {AuthContext} from '../Constants/AuthContext';
 import Icon from 'react-native-vector-icons/Ionicons';
 

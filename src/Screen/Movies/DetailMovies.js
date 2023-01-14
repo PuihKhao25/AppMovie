@@ -8,33 +8,20 @@ import {
   TouchableOpacity,
   StyleSheet,
 } from 'react-native';
-import Styles from '../Styles';
-import axios from 'axios';
+import Styles from '../../Styles';
 import YoutubePlayer from 'react-native-youtube-iframe';
 import {useNavigation} from '@react-navigation/native';
 import moment from 'moment/moment';
-import API_URL from '../Services/API';
-import HeaderSreen from './HeaderSreen';
+import HeaderSreen from '../../Components/HeaderSreen';
+import { useGetDetailMovie } from '../../hook';
 
 const DetailMovies = ({route}) => {
-  const [times, setTimes] = useState([]);
+
   const [showTime, setShowTime] = useState(false);
   const navigation = useNavigation();
-  if (route.params.item) {
-    var {maPhim, tenPhim, trailer, moTa, ngay_khoi_chieu} = route.params.item;
-  }
-  useEffect(() => {
-    async function getflim() {
-      const res = await axios.get(
-        API_URL + `/api/QuanLyRap/LayThongTinLichChieu?maPhim=${maPhim}`,
-      );
-      return res;
-    }
-    getflim().then(response => {
-      const result = response.data.content;
-      setTimes(result);
-    });
-  }, []);
+  const {maPhim, tenPhim, trailer, moTa, ngay_khoi_chieu} = route?.params?.item;
+  const {detailMovie} = useGetDetailMovie({maPhim});
+
   return (
     <>
       <HeaderSreen
@@ -53,17 +40,17 @@ const DetailMovies = ({route}) => {
               </Text>
             </View>
             <View style={styles.padding}>
-              {times.map(item => {
+              {detailMovie?.map(item => {
                 return (
                   <>
-                    <View>
+                    <View key={item?.maRap}>
                       <TouchableOpacity onPress={() => setShowTime(!showTime)}>
                         <View style={styles.containnerLogo}>
                           <Image
-                            source={{uri: item.logo}}
+                            source={{uri: item?.logo}}
                             style={styles.logo}
                           />
-                          <Text style={styles.nameRap}>{item.tenRap}</Text>
+                          <Text style={styles.nameRap}>{item?.tenRap}</Text>
                         </View>
                       </TouchableOpacity>
                       {showTime && (
@@ -73,7 +60,7 @@ const DetailMovies = ({route}) => {
                           }
                           style={styles.chooseTime}>
                           <Text style={styles.centerTime}>
-                            {moment(item.ngayGioChieu).format('hh:mm')}
+                            {moment(item?.ngayGioChieu).format('hh:mm')}
                           </Text>
                         </TouchableOpacity>
                       )}

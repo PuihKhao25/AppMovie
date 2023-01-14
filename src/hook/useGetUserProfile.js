@@ -1,25 +1,24 @@
 import axios from 'axios';
 import {useEffect, useState} from 'react';
 import API_URL from '../Services/API';
-const useGetDetailMovie = () => {
+
+const useGetUserProfile = ({taiKhoan}) => {
   const [data, setData] = useState([]);
-  const getUpcomingMovie = async () => {
+  const getUserProfile = async () => {
     return await axios
-      .get(`${API_URL}/api/QuanLyPhim/LayDanhSachPhim?keyword=1&status=0`)
+      .get(`${API_URL}/api/QuanLyNguoiDung/ThongTinTaiKhoan/${taiKhoan}`)
       .then(({data}) => {
         setData(data?.content);
       })
       .catch(err => console.log(err));
   };
   useEffect(() => {
-    getUpcomingMovie();
+    getUserProfile();
   }, []);
-
-  const movies = data;
-
+  profile = data;
   return {
-    movies,
+    profile,
   };
 };
 
-export default useGetDetailMovie;
+export default useGetUserProfile;
